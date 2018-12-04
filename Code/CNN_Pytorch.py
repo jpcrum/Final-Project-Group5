@@ -86,17 +86,17 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         self.layer1 = nn.Sequential(
             #1 input for grayscale, # of feature maps,
-            nn.Conv2d(1, 32, kernel_size=11, padding=5, stride=1),
+            nn.Conv2d(1, 32, kernel_size=9, padding=4, stride=1),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2))
         self.layer2 = nn.Sequential(
-            nn.Conv2d(32, 32, kernel_size=9, padding=4),
+            nn.Conv2d(32, 32, kernel_size=7, padding=3),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2))
         self.layer3 = nn.Sequential(
-            nn.Conv2d(32, 32, kernel_size=7, padding=3),
+            nn.Conv2d(32, 32, kernel_size=5, padding=2),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2))
@@ -222,7 +222,7 @@ for weight in weights:
     flat_weights.append(flat_weight)
 
 weights_df = pd.DataFrame(flat_weights)
-#weights_df.to_csv('/home/ubuntu/MachineLearningII/Weights/50imsize.csv')
+weights_df.to_csv('/home/ubuntu/MachineLearningII/Weights/50imsize.csv')
 
 
-print('a')
+print('Done')

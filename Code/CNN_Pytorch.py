@@ -13,7 +13,7 @@ from torch.utils.data.dataset import Dataset
 import time
 # -----------------------------------------------------------------------------------
 
-image_size = 50
+image_size = 224
 
 class CustomDatasetFromImages(Dataset):
     def __init__(self, csv_path, transforms):
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 #transform = transforms.Compose([transforms.ToPILImage(), transforms.ToTensor()])
 
-num_epochs = 5
+num_epochs = 10
 batch_size = 50
 learning_rate = 0.001
 
@@ -110,24 +110,22 @@ class CNN(nn.Module):
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2))
-        self.fc1 = nn.Linear(6 * 6 * 32, 516)
+        self.fc1 = nn.Linear(7 * 7 * 32, 128)
         self.drop1 = nn.Dropout(0.2)
-        self.fc2 = nn.Linear(516, 128)
-        self.fc3 = nn.Linear(128, 16)
+        self.fc2 = nn.Linear(128, 16)
 
     def forward(self, x):
         out = self.layer1(x.float())
         out = self.layer2(out)
         out = self.layer3(out)
-        #out = self.layer4(out)
-        #out = self.layer5(out)
+        out = self.layer4(out)
+        out = self.layer5(out)
         out = out.view(out.size(0), -1)
         out = self.fc1(out)
         out = self.drop1(out)
         out = self.fc2(out)
-        out = self.drop1(out)
-        out = self.fc3(out)
         return out
+
 # -----------------------------------------------------------------------------------
 cnn = CNN()
 cnn.cuda()
@@ -192,7 +190,7 @@ for i, (images, labels) in enumerate(test_iter):
 print('Test Accuracy of the model on the test images: {}'.format(100 * correct / total))
 # -----------------------------------------------------------------------------------
 # Save the Trained Model
-torch.save(cnn.state_dict(), 'cnn-wholeimage-50-5ConvBlocks-5Kernel-3fc2DropsHistEq-5Epochs-50batchsize.pkl')
+#torch.save(cnn.state_dict(), 'cnn-wholeimage-50-5ConvBlocks-5Kernel-3fc2DropsHistEq-5Epochs-50batchsize.pkl')
 #torch.save(cnn.state_dict(), 'cnn-wholeimage-224-4ConvBlocks-00001lr-11kernel-Adam.pkl".pkl')
 
 preds = [x for pred in im_preds for x in pred]
@@ -224,7 +222,7 @@ for weight in weights:
     flat_weights.append(flat_weight)
 
 weights_df = pd.DataFrame(flat_weights)
-weights_df.to_csv('/home/ubuntu/MachineLearningII/Weights/50imsize.csv')
+#weights_df.to_csv('/home/ubuntu/MachineLearningII/Weights/50imsize.csv')
 
 
 print('a')

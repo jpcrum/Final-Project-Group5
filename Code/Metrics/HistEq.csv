@@ -1,0 +1,3 @@
+Preprocess,Accuracy,Recall,Precision,F1
+None,0.677,0.676,0.71,0.68
+Hist Eq,0.728,0.729,0.736,0.7234

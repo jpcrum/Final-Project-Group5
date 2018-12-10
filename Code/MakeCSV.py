@@ -37,5 +37,3 @@ def make_csv(files, dataset):
 make_csv(filenames_test, 'test')
 make_csv(filenames_train, 'train')
 
-
-print('a')

@@ -1,3 +1,4 @@
+
 # -----------------------------------------------------------------------------------
 import pandas as pd
 import numpy as np
@@ -11,8 +12,6 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 from torch.utils.data.dataset import Dataset
 import time
-# -----------------------------------------------------------------------------------
-
 image_size = 224
 
 class CustomDatasetFromImages(Dataset):
@@ -76,11 +75,10 @@ test_iter = iter(test)
 
 images, labels = train_iter.next()
 
-print('images shape on batch size = {}'.format(images.size()))
-print('labels shape on batch size = {}'.format(labels.size()))
+num_epochs = 10
+batch_size = 50
+learning_rate = 0.001
 
-# -----------------------------------------------------------------------------------
-# CNN Model (2 conv layer)
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
@@ -126,45 +124,9 @@ class CNN(nn.Module):
         out = self.fc2(out)
         return out
 
-# -----------------------------------------------------------------------------------
 cnn = CNN()
-cnn.cuda()
-# -----------------------------------------------------------------------------------
-# Loss and Optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(cnn.parameters(), lr=learning_rate)
-# -----------------------------------------------------------------------------------
-# Train the Model
 
-losses = []
-
-start_time = time.time()
-for epoch in range(num_epochs):
-    print ("Starting Epoch {}".format(epoch + 1))
-    train_iter = iter(train)
-    i = 0
-    for images, labels in train_iter:
-
-        images = Variable(images).cuda()
-        labels = Variable(labels).cuda()
-
-        # Forward + Backward + Optimize
-        optimizer.zero_grad()
-        outputs = cnn(images)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        i += 1
-
-        if (i) % 50 == 0:
-            print('Epoch {}/{}, Iter {}/{}, Loss: {}'.format(epoch + 1, num_epochs, i, (train_loader.data_len / batch_size), loss.item()))
-
-        losses.append(loss.item())
-
-    print("Epoch Done")
-
-print("--- %s seconds ---" % (time.time() - start_time))
-# -----------------------------------------------------------------------------------
+cnn = load_state_dict(torch.load("/home/ubuntu/Machine_Learning_II/Final Project/cnn-wholeimage-224-5ConvBlocks-5Kernel-Adam-10Epochs-50batchsize.pkl"))
 # Test the Model
 cnn.eval()  # Change model to 'eval' mode (BN uses moving mean/var).
 correct = 0
@@ -210,10 +172,6 @@ recall = recall_score(labels, preds, average='macro')
 print("Recall: " + str(recall))
 precision = precision_score(labels, preds, average='macro')
 print("Precision: " + str(precision))
-class_report = classification_report(labels, preds, labels = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
-                                     target_names = ['letter', 'form', 'email', 'handwritten', 'advertisement', 'scientific report',
-                                                     'scientific publication', 'specification', 'file folder', 'news article', 'budget',
-                                                     'invoice', 'presentation', 'questionnaire', 'resume', 'memo'])
 
 weights = []
 for i in range(32):

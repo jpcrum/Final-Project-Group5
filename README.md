@@ -1,6 +1,8 @@
 # Final-Project-Group5
 Constructing Convolutional Neural Networks to train on the RVL-CDIP dataset
 
+Google Bucket with Train and Test Data: https://console.cloud.google.com/storage/browser/group5-ml2-bucket
+
 Image Sorting, EDA, and Preprocessing:
       
 -ExtractionAndSorting.ipynb:

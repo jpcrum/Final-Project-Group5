@@ -3,16 +3,13 @@ Constructing Convolutional Neural Networks to train on the RVL-CDIP dataset
 
 Image Sorting, EDA, and Preprocessing:
       
-      ExtractionAndSorting.ipynb
-      
+      -ExtractionAndSorting.ipynb:
           - Extracts file paths and labels from labels textfile and moves to new DocImages folder
           - Change directory as needed
-      EDA.ipynb
-      
+      -EDA.ipynb:      
           - Extracts image dimensions distribution, pixel mean value, max and min pixel images, and increasingly small document images
           - Change directories to where the images are stored
-      Preprocessing.ipynb
-      
+      -Preprocessing.ipynb:      
           - Checks preprocessing methods on random images from each class
           - Histogram Equalization
           - Creates new dataset for each image region (will take long time due to number of images being created)
